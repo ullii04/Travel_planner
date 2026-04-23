@@ -15,6 +15,6 @@ The **Tour Guide Project** is a web application designed to help users explore d
 - Git & GitHub for version control
 
 ## Team Members
-- **Member 1:** Dulat Ismatulla
-- **Member 2:** Nurzhanov Amirkhan
-- **Member 3:** Kabyl Daryn  
+- **Member 1:** Elshibai Ulzhalgas
+- **Member 2:** UZAKBAYEV ASSYLBEK
+  
