@@ -1,0 +1,6 @@
+/* Offset content below fixed navbar (~70px height) */
+.main-container {
+  flex: 1;
+  min-height: calc(100vh - 70px);
+  padding-top: 70px;
+}

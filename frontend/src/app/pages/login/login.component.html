@@ -1,0 +1,58 @@
+<div class="auth-container">
+  <div class="auth-card">
+
+    <div class="auth-brand">
+      <div class="brand-dot"></div>
+      <span>EuroTour</span>
+    </div>
+
+    <h2>Welcome Back</h2>
+    <p class="auth-subtitle">Sign in to continue planning your trips</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          formControlName="email"
+          placeholder="you@example.com"
+          [class.is-invalid]="submitted && f['email'].errors"
+        />
+        <div *ngIf="submitted && f['email'].errors" class="error-msg">
+          <span *ngIf="f['email'].errors['required']">Email is required</span>
+          <span *ngIf="f['email'].errors['email']">Enter a valid email</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          formControlName="password"
+          placeholder="Your password"
+          [class.is-invalid]="submitted && f['password'].errors"
+        />
+        <div *ngIf="submitted && f['password'].errors" class="error-msg">
+          <span *ngIf="f['password'].errors['required']">Password is required</span>
+          <span *ngIf="f['password'].errors['minlength']">At least 6 characters</span>
+        </div>
+      </div>
+
+      <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+      <button type="submit" class="btn-submit" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Sign In' }}
+      </button>
+    </form>
+
+    <p class="auth-switch">
+      Don't have an account?
+      <a [routerLink]="['/register']">Create one</a>
+    </p>
+
+  </div>
+</div>

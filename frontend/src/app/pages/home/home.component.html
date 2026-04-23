@@ -1,0 +1,63 @@
+<div class="home-container">
+
+  <section class="hero" [style.background-image]="'url(' + heroImage + ')'">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Your Journey Starts Here</p>
+      <h1 class="hero-title">Discover Europe<br><span class="hero-accent">Like Never Before</span></h1>
+      <p class="hero-subtitle">Handpicked destinations, unforgettable experiences, and memories that last a lifetime</p>
+      <div class="hero-actions">
+        <button class="btn-primary" (click)="exploreDestinations()">Explore Destinations</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">50+</span><span class="stat-label">Destinations</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">12K+</span><span class="stat-label">Travelers</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">4.9★</span><span class="stat-label">Rating</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-section">
+    <div class="section-inner">
+      <div class="section-label">Simple Steps</div>
+      <h2 class="section-title">Plan in Minutes</h2>
+      <p class="section-sub">Everything you need to organise your perfect European trip</p>
+      <div class="steps-row">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <h3>Discover Places</h3>
+          <p>Browse our curated list of top European destinations with detailed guides</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <h3>Plan Your Trip</h3>
+          <p>Set dates, create your itinerary, and organise everything in one place</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <h3>Travel & Enjoy</h3>
+          <p>Pack your bags and experience Europe exactly the way you imagined</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="section-inner cta-inner">
+      <div class="cta-text">
+        <div class="section-label">Get Started</div>
+        <h2>Ready for Your Next Adventure?</h2>
+        <p>Join thousands of travellers who have already discovered their dream European getaway. Create a free account and start planning today.</p>
+      </div>
+      <div class="cta-actions">
+        <button class="btn-primary" (click)="exploreDestinations()">Browse Destinations</button>
+        <a [routerLink]="['/register']" class="btn-secondary">Create Free Account</a>
+      </div>
+    </div>
+  </section>
+
+</div>

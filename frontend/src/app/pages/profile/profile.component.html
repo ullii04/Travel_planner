@@ -1,0 +1,96 @@
+<div class="profile-page" *ngIf="!isAuthenticated">
+  <div class="not-auth">
+    <div class="not-auth-inner">
+      <h2>Sign In to View Your Profile</h2>
+      <p>Access your travel history, preferences, and saved trips all in one place.</p>
+      <div class="not-auth-actions">
+        <a [routerLink]="['/login']" class="btn-primary">Sign In</a>
+        <a [routerLink]="['/register']" class="btn-outline">Create Account</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="profile-page" *ngIf="isAuthenticated && (currentUser$ | async) as user">
+
+  <div class="profile-banner">
+    <div class="profile-banner-inner">
+      <div class="profile-avatar">{{ user.name.charAt(0).toUpperCase() }}</div>
+      <div class="profile-meta">
+        <h1>{{ user.name }}</h1>
+        <p class="profile-email">{{ user.email }}</p>
+        <span class="profile-badge">✦ Member</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-body">
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">{{ tripCount }}</div>
+        <div class="stat-label">Trips Planned</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ destinationsCount }}</div>
+        <div class="stat-label">Destinations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ completedCount }}</div>
+        <div class="stat-label">Completed</div>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <div class="section-head">
+        <h2>Account Details</h2>
+      </div>
+      <div class="info-list">
+        <div class="info-row">
+          <span class="info-label">Full Name</span>
+          <span class="info-value">{{ user.name }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email Address</span>
+          <span class="info-value">{{ user.email }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Member ID</span>
+          <span class="info-value muted">#{{ user.id }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <div class="section-head">
+        <h2>Quick Links</h2>
+      </div>
+      <div class="quick-links">
+        <a [routerLink]="['/my-trips']" class="quick-link">
+          <div class="ql-icon">🗺️</div>
+          <div class="ql-text">
+            <span class="ql-title">My Trips</span>
+            <span class="ql-sub">Manage your travel plans</span>
+          </div>
+          <span class="ql-arrow">→</span>
+        </a>
+        <a [routerLink]="['/destinations']" class="quick-link">
+          <div class="ql-icon">🌍</div>
+          <div class="ql-text">
+            <span class="ql-title">Explore Destinations</span>
+            <span class="ql-sub">Browse European cities</span>
+          </div>
+          <span class="ql-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <div class="section-head">
+        <h2>Session</h2>
+      </div>
+      <button class="btn-logout" (click)="logout()">Sign Out</button>
+    </div>
+
+  </div>
+</div>

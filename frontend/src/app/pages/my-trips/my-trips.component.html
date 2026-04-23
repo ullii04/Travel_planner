@@ -1,0 +1,120 @@
+<div class="trips-page">
+
+  <div class="page-hero">
+    <div class="page-hero-bg" style="background-image: url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&q=80')"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <p class="eyebrow">✦ Your Travel Plans</p>
+      <h1>My Trips</h1>
+      <p class="sub">View and manage all your upcoming adventures</p>
+    </div>
+  </div>
+
+  <div class="trips-body">
+
+    <div *ngIf="!isAuthenticated" class="auth-wall">
+      <h2>Sign In to See Your Trips</h2>
+      <p>You need to be logged in to view and manage your travel plans.</p>
+      <a [routerLink]="['/login']" class="btn-signin">Sign In →</a>
+      <p class="auth-hint">Don't have an account? <a [routerLink]="['/register']">Register for free</a></p>
+    </div>
+
+    <div *ngIf="isAuthenticated && loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading your trips...</p>
+    </div>
+
+    <div *ngIf="isAuthenticated && !loading && trips.length === 0" class="empty-state">
+      <div class="empty-icon">🗺️</div>
+      <h2>No Trips Planned Yet</h2>
+      <p>You haven't planned any trips yet. Start by exploring our destinations!</p>
+      <a [routerLink]="['/destinations']" class="btn-explore">Explore Destinations →</a>
+    </div>
+
+    <div *ngIf="isAuthenticated && !loading && trips.length > 0" class="trips-grid">
+      <div *ngFor="let trip of trips" class="trip-card">
+        <div class="trip-img-wrap">
+          <img [src]="trip.destination.image" [alt]="trip.destination.name" />
+          <span [ngClass]="getStatusBadgeClass(trip.status)" class="trip-badge">{{ trip.status | titlecase }}</span>
+        </div>
+        <div class="trip-content">
+          <div class="trip-header">
+            <div>
+              <h3>{{ trip.destination?.name }}</h3>
+              <p class="trip-country">{{ trip.destination.country }}</p>
+            </div>
+          </div>
+          <div class="trip-dates">
+            <div class="date-item">
+              <span class="date-label">Departure</span>
+              <span class="date-val">{{ trip.start_date | date:'MMM dd, yyyy' }}</span>
+            </div>
+            <div class="date-arrow">→</div>
+            <div class="date-item">
+              <span class="date-label">Return</span>
+              <span class="date-val">{{ trip.end_date | date:'MMM dd, yyyy' }}</span>
+            </div>
+          </div>
+          <div class="trip-actions">
+            <button class="btn-edit" (click)="openEditModal(trip)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              Edit
+            </button>
+            <button class="btn-delete" (click)="confirmDelete(trip)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="editModalOpen" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Edit Trip — {{ editingTrip?.destination?.name }}</h3>
+      <button class="modal-close" (click)="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" *ngIf="editingTrip">
+      <div class="form-group">
+        <label>Status</label>
+        <select [(ngModel)]="editForm.status" class="form-control">
+          <option value="planned">Planned</option>
+          <option value="ongoing">Ongoing</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Departure Date</label>
+        <input type="date" [(ngModel)]="editForm.start_date" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label>Return Date</label>
+        <input type="date" [(ngModel)]="editForm.end_date" class="form-control" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeModal()">Cancel</button>
+      <button class="btn-save" (click)="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="deleteModalOpen" (click)="closeDeleteModal()">
+  <div class="modal modal-sm" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Remove Trip</h3>
+      <button class="modal-close" (click)="closeDeleteModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure you want to remove <strong>{{ deletingTrip?.destination?.name }}</strong> from your trips?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeDeleteModal()">Cancel</button>
+      <button class="btn-delete-confirm" (click)="deleteTrip()">Remove Trip</button>
+    </div>
+  </div>
+</div>

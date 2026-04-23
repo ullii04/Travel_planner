@@ -1,0 +1,53 @@
+<div class="destinations-page">
+
+  <div class="page-hero">
+    <div class="page-hero-bg" style="background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1600&q=80')"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <p class="eyebrow">✦ Explore the World</p>
+      <h1>Destinations</h1>
+      <p class="sub">Discover {{ destinations.length }} incredible places waiting for you</p>
+    </div>
+  </div>
+
+  <div class="destinations-body">
+
+    <div class="search-bar-wrap">
+      <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-bar">
+        <input
+          type="text"
+          class="search-input"
+          formControlName="searchTerm"
+          placeholder="Search by city, country..."
+        />
+        <select class="filter-select" formControlName="region" (change)="onSearch()">
+          <option *ngFor="let region of regions">{{ region }}</option>
+        </select>
+        <button type="submit" class="btn-search">Search</button>
+      </form>
+    </div>
+
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading destinations...</p>
+    </div>
+
+    <div *ngIf="!loading" class="results-meta">
+      <span>Showing <strong>{{ destinations.length }}</strong> destinations</span>
+    </div>
+
+    <div class="destinations-grid" *ngIf="!loading">
+      <app-destination-card
+        *ngFor="let destination of destinations"
+        [destination]="destination"
+        (viewDetails)="viewDetails($event)"
+      ></app-destination-card>
+    </div>
+
+    <div *ngIf="destinations.length === 0 && !loading" class="no-results">
+      <h3>No destinations found</h3>
+      <p>Try adjusting your search or filter</p>
+    </div>
+
+  </div>
+</div>

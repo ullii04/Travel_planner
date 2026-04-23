@@ -1,0 +1,28 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand" (click)="navigateHome()">
+      <span class="brand-icon"></span>
+      <span class="brand-text">EuroTour</span>
+    </div>
+
+    <div class="navbar-nav">
+      <a class="nav-link" (click)="navigateHome()">Home</a>
+      <a class="nav-link" (click)="navigateDestinations()">Destinations</a>
+      <a class="nav-link" (click)="navigateTrips()">My Trips</a>
+      <a class="nav-link" (click)="navigateProfile()">Profile</a>
+    </div>
+
+    <div class="navbar-auth">
+      <span *ngIf="isAuthenticated" class="user-name">{{ (currentUser$ | async)?.name }}</span>
+      <button *ngIf="!isAuthenticated" class="btn-register" (click)="navigateRegister()">
+        Register
+      </button>
+      <button *ngIf="!isAuthenticated" class="btn-login" (click)="navigateLogin()">
+        Login
+      </button>
+      <button *ngIf="isAuthenticated" class="btn-logout" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </div>
+</nav>

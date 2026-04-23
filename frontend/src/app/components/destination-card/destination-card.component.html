@@ -1,0 +1,14 @@
+<div class="dest-card" (click)="onViewDetails()">
+  <div class="card-img-wrap">
+    <img [src]="destination.image" [alt]="destination.name" class="card-img" loading="lazy" />
+    <span class="region-pill">{{ destination.region }}</span>
+    <span class="rating-pill">⭐ {{ destination.rating }}</span>
+  </div>
+  <div class="card-body">
+    <h3 class="card-title">{{ destination.name }}<span class="card-country">, {{ destination.country }}</span></h3>
+    <p class="card-desc">{{ destination.shortDescription }}</p>
+    <div class="card-footer">
+      <span class="view-link">Explore →</span>
+    </div>
+  </div>
+</div>

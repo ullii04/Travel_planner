@@ -1,0 +1,116 @@
+<div class="detail-container">
+  <button class="btn-back" (click)="goBack()">← Back</button>
+
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+  <div *ngIf="!destination" class="loading">Loading destination details...</div>
+
+  <div *ngIf="destination" class="detail-content">
+    <div class="detail-header">
+      <img [src]="destination.image" [alt]="destination.name" class="detail-image" />
+      <div class="header-info">
+        <h1>{{ destination.name }}, {{ destination.country }}</h1>
+
+        <div class="rating-block">
+          <div class="rating-summary">
+            <span class="rating-avg">{{ displayRating | number:'1.1-1' }}</span>
+            <div class="stars-display">
+              <svg *ngFor="let s of starsArray; let i = index"
+                   class="star-svg" [class.filled]="i < fullStars" [class.half]="i === fullStars && hasHalfStar"
+                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient [id]="'half-' + i" x1="0" x2="1" y1="0" y2="0">
+                    <stop offset="50%" stop-color="#f5c842"/>
+                    <stop offset="50%" stop-color="#e0e0e0"/>
+                  </linearGradient>
+                </defs>
+                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+                  [attr.fill]="i < fullStars ? '#f5c842' : (i === fullStars && hasHalfStar ? 'url(#half-' + i + ')' : '#e0e0e0')"
+                  stroke="#f5c842" stroke-width="1" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="rating-votes">{{ totalVotes }} votes</span>
+          </div>
+
+          <div class="rating-vote" [class.voted]="userRating > 0">
+            <p class="vote-label">{{ userRating > 0 ? 'Your rating: ' + userRating + ' ★' : 'Rate this destination:' }}</p>
+            <div class="vote-stars">
+              <svg *ngFor="let s of starsArray; let i = index"
+                   class="vote-star-svg"
+                   [class.active]="i < hoverRating || (hoverRating === 0 && i < userRating)"
+                   [class.bump]="justRated && i < userRating"
+                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                   (mouseenter)="hoverRating = i + 1"
+                   (mouseleave)="hoverRating = 0"
+                   (click)="submitRating(i + 1)">
+                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+                  stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <button *ngIf="userRating > 0" class="btn-reset-vote" (click)="resetRating()">Remove my rating</button>
+          </div>
+        </div>
+
+        <p class="description">{{ destination.description }}</p>
+      </div>
+    </div>
+
+    <div class="detail-body">
+      <div class="info-section">
+        <h3>Destination Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Region:</span>
+            <span class="value">{{ destination.region }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Average Rating:</span>
+            <span class="value">{{ displayRating | number:'1.1-1' }} / 5</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Total Votes:</span>
+            <span class="value">{{ totalVotes }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="trip-booking-section">
+        <h3>Plan Your Trip</h3>
+        <form [formGroup]="tripForm" (ngSubmit)="onCreateTrip()">
+          <div class="form-group">
+            <label for="startDate">Start Date</label>
+            <input
+              type="date"
+              id="startDate"
+              class="form-control"
+              formControlName="startDate"
+            />
+            <span *ngIf="tripForm.get('startDate')?.errors && tripForm.get('startDate')?.touched"
+                  class="error-message">Start date is required</span>
+          </div>
+
+          <div class="form-group">
+            <label for="endDate">End Date</label>
+            <input
+              type="date"
+              id="endDate"
+              class="form-control"
+              formControlName="endDate"
+            />
+            <span *ngIf="tripForm.get('endDate')?.errors && tripForm.get('endDate')?.touched"
+                  class="error-message">End date is required</span>
+          </div>
+
+          <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+          <button type="submit" class="btn-submit" [disabled]="loading">
+            {{ loading ? 'Creating Trip...' : 'Create Trip' }}
+          </button>
+
+          <p *ngIf="!isAuthenticated" class="auth-notice">
+            <em>You need to be logged in to create a trip. <a [routerLink]="['/login']">Login here</a></em>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
